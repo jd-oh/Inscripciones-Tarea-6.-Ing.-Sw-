@@ -20,15 +20,22 @@ public class ControlRegistro {
 
     }
 
-    public boolean buscarEstudiante(String cedula) {
-
-        return false;
+    /**
+     * 
+     * @param cedula
+     * @return 
+     */
+    public Estudiante buscarEstudiante(String cedula) {
+        
+        for (Estudiante estudiante : estudiantes) {
+            if(estudiante.getCedula().equals(cedula))
+                return estudiante;
+        }
+        
+        return null;
     }
 
-    public boolean buscarCodigoMateria(String cedula) {
-
-        return false;
-    }
+    
 
     public ArrayList<Estudiante> listarEstudiantes() {
         return estudiantes;
