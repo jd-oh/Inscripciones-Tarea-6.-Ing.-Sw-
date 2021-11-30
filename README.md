@@ -4,3 +4,6 @@ El programa recibe un archivo de texto con información de inscripciones (Cédul
 
 Notas:
 Para no violar LoD, se creó el método agregarCodMateriasCursadas() en la clase Estudiante, el cual recibe el código de la materia y la adiciona a la lista "codigoMateriasCursadas".
+
+
+Se creo una nueva funcion en controlRegistro llamada agregarMateria para actualizar la lista del estudiante
