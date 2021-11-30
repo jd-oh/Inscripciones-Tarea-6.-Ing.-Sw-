@@ -21,33 +21,35 @@ public class ControlRegistro {
     }
 
     /**
-     * 
-     * @param cedula
-     * @return 
+     * Método que busca un estudiante en la lista de estudiantes para saber si
+     * existe
+     *
+     * @param cedula la cédula del estudiante
+     * @return el estudiante si existe o null si no existe.
      */
     public Estudiante buscarEstudiante(String cedula) {
-        
+
         for (Estudiante estudiante : estudiantes) {
-            if(estudiante.getCedula().equals(cedula))
+            if (estudiante.getCedula().equals(cedula)) {
                 return estudiante;
+            }
         }
-        
+
         return null;
     }
 
-    
 
-    public ArrayList<Estudiante> listarEstudiantes() {
-        return estudiantes;
-    }
+    /**
+     * Llama al método convertirArchivo de la clase controlArchivo 
+     * para traer los datos del archivo y guardarlos en una lista
+     * @return los datos leídos del archivo en una lista de String
+     */
+    public ArrayList<String> cargarLista() {
 
-    public int totalMateriasEstudiante(Estudiante estudiante) {
-
-        return 0;
-    }
-
-    public ArrayList<String> cargarLista(String ruta) {
         ArrayList<String> datos = new ArrayList<String>();
+        ControlArchivo controlArchivo = new ControlArchivo();
+        
+        datos = controlArchivo.convertirArchivo();
 
         return datos;
     }

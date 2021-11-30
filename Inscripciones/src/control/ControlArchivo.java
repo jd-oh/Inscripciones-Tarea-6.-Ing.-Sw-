@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ControlArchivo {
     
     
-    public ArrayList<String> convertirArchivo(File archivo){
+    public ArrayList<String> convertirArchivo(){
         ArrayList<String> datos=new ArrayList<>();
         
         
