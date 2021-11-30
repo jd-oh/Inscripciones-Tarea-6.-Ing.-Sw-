@@ -7,8 +7,11 @@ package control;
 
 /**
  *
- * @author nicoe
+ * @author Juan David Osorio y Nicolás Estupiñán
  */
-public class EstudianteException {
+public class EstudianteException extends Exception{
     
+    public EstudianteException(String mensaje){
+       super(mensaje);
+   }
 }

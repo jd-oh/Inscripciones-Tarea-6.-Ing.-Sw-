@@ -7,8 +7,11 @@ package control;
 
 /**
  *
- * @author nicoe
+ * @author Juan David Osorio y Nicolás Estupiñán
  */
-public class ControlArchivoException {
+public class ControlArchivoException extends Exception{
     
+   public ControlArchivoException(String mensaje){
+       super(mensaje);
+   }
 }

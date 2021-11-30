@@ -7,8 +7,11 @@ package control;
 
 /**
  *
- * @author nicoe
+ * @author Juan David Osorio y Nicolás Estupiñán
  */
-public class ListaException {
+public class ListaException extends Exception{
     
+    public ListaException(String mensaje){
+       super(mensaje);
+   }
 }

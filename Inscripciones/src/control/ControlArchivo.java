@@ -5,10 +5,21 @@
  */
 package control;
 
+import java.io.File;
+import java.util.ArrayList;
+
 /**
  *
- * @author nicoe
+ * @author Juan David Osorio y Nicolás Estupiñán
  */
 public class ControlArchivo {
     
+    
+    public ArrayList<String> convertirArchivo(File archivo){
+        ArrayList<String> datos=new ArrayList<>();
+        
+        
+        
+        return datos;
+    }
 }
