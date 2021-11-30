@@ -7,7 +7,7 @@ package vista;
 
 /**
  *
- * @author nicoe
+ * @author Juan David Osorio y Nicolás Estupiñán
  */
 public class Ventana extends javax.swing.JFrame {
 
