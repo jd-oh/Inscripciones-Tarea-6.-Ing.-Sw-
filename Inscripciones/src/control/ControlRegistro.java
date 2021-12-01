@@ -5,7 +5,12 @@
  */
 package control;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import modelo.Estudiante;
 
@@ -20,7 +25,6 @@ public class ControlRegistro {
     public void registrarEstudiante() {
 
     }
-
 
     /**
      * Método que busca un estudiante en la lista de estudiantes para saber si
@@ -40,34 +44,42 @@ public class ControlRegistro {
         return null;
     }
 
-
     /**
-     * Llama al método convertirArchivo de la clase controlArchivo 
-     * para traer los datos del archivo y guardarlos en una lista
+     * Llama al método convertirArchivo de la clase controlArchivo para traer
+     * los datos del archivo y guardarlos en una lista
+     *
      * @return los datos leídos del archivo en una lista de String
      */
-    public ArrayList<String> cargarLista() {
+    public ArrayList<String> cargarLista(File archivoAConvertir) {
 
         ArrayList<String> datos = new ArrayList<String>();
         ControlArchivo controlArchivo = new ControlArchivo();
-        
-        datos = controlArchivo.convertirArchivo();
+
+        try {
+            datos = controlArchivo.convertirArchivo(archivoAConvertir);
+        } catch (IOException error) {
+            System.out.println("ERROR: El archivo no pudo leerse."
+                    + "correctamente.");
+        } catch (ControlArchivoException error) {
+            System.out.println(error.getMessage());
+        }
 
         return datos;
     }
 
     /**
-     * Metodo para comprobar si el codigo de la materia ya se encuentra 
+     * Metodo para comprobar si el codigo de la materia ya se encuentra
      * registrada en la lista del estudiante
+     *
      * @param estudiante nos permite saber a cual estudiante debemos verificar
-     * @param codigo materia a ser buscada en el estudiante 
+     * @param codigo materia a ser buscada en el estudiante
      * @return falso si la materia no este en la lista del estudiante
-     * @return true si la materia ya esta en la lista 
+     * @return true si la materia ya esta en la lista
      */
     public boolean buscarCodigoMateria(Estudiante estudiante, String codigo) {
         ArrayList<String> materias = estudiante.mostrarCodigoMaterias();
         for (String materia : materias) {
-            if (materia.equals(codigo)){
+            if (materia.equals(codigo)) {
                 JOptionPane.showMessageDialog(null, "Esta materia ya está "
                         + "registrada para este estudiante " + codigo);
                 return true;
@@ -77,18 +89,20 @@ public class ControlRegistro {
         }
         return false;
     }
-    
+
     /**
-     * Metodo para agregar una materia a la lista de un estudiante 
+     * Metodo para agregar una materia a la lista de un estudiante
+     *
      * @param estudiante nos permite saber a cual estudiante debemos agregar
      * @param codigo materia a ser agregada a la lista del estudiante
      */
-    public void agregarMateria(Estudiante estudiante, String codigo){
+    public void agregarMateria(Estudiante estudiante, String codigo) {
         estudiante.agregarCodMateriasCursadas(codigo);
     }
-    
+
     /**
      * metodo que nos devuelve la lsita de estudiantes
+     *
      * @return Arraylist con los objetos de tipo estudiante
      */
     public ArrayList<Estudiante> listarEstudiantes() {
@@ -97,15 +111,14 @@ public class ControlRegistro {
 
     /**
      * metodo para saber la cantidad de materias del estudiante
-     * @param estudiante nos permite saber de cual estudiante necesitamos 
-     * la cantidad de materias
+     *
+     * @param estudiante nos permite saber de cual estudiante necesitamos la
+     * cantidad de materias
      * @return un entero que es la cantidad de materias del estudiante
      */
     public int totalMateriasEstudiante(Estudiante estudiante) {
-        
+
         return estudiante.mostrarCodigoMaterias().size();
     }
-
-
 
 }
