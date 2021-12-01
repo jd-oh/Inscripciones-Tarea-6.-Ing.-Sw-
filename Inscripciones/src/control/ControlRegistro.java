@@ -30,10 +30,11 @@ public class ControlRegistro {
      * sus materias
      * @param inscripciones lista de datos provenientes del archivo previamente 
      * cargado
-     * @throws EstudianteException  en caso de que los datos proporcionados
+     * @exception  EstudianteException  en caso de que los datos proporcionados
      * no sean los previamente acordados para la inscripción
      */
-    public void registrarEstudiante(ArrayList<String> inscripciones) throws EstudianteException {
+    public void registrarEstudiante(ArrayList<String> inscripciones) {
+        try{
         for (String datoInscripcion : inscripciones) {
             String [] inscripcionDividida = datoInscripcion.split(",");
             if (inscripcionDividida.length != 4){
@@ -51,6 +52,10 @@ public class ControlRegistro {
                 matricularEstudiante( inscripcionDividida);
             }
               
+        }
+        }
+        catch(EstudianteException e){
+            System.out.println(e.getMessage());
         }
     }
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import modelo.Estudiante;
 
 /**
  *
@@ -25,6 +26,8 @@ public class Ventana extends javax.swing.JFrame {
 
     private String rutaArchivo;
     private ControlRegistro controlRegistro;
+    private ArrayList<String> datos=new ArrayList<>();
+
 
     /**
      * Creates new form Ventana
@@ -44,8 +47,14 @@ public class Ventana extends javax.swing.JFrame {
     private void initComponents() {
 
         btnSeleccionarArchivo = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        txtInformacion = new javax.swing.JTextArea();
+        Titulo = new javax.swing.JLabel();
+        btnMostrarInformacion = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(450, 400));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnSeleccionarArchivo.setText("Seleccionar archivo");
         btnSeleccionarArchivo.addActionListener(new java.awt.event.ActionListener() {
@@ -53,23 +62,26 @@ public class Ventana extends javax.swing.JFrame {
                 btnSeleccionarArchivoActionPerformed(evt);
             }
         });
+        getContentPane().add(btnSeleccionarArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 250, -1, -1));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addComponent(btnSeleccionarArchivo)
-                .addContainerGap(105, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(231, Short.MAX_VALUE)
-                .addComponent(btnSeleccionarArchivo)
-                .addGap(37, 37, 37))
-        );
+        txtInformacion.setEditable(false);
+        txtInformacion.setColumns(20);
+        txtInformacion.setRows(5);
+        jScrollPane1.setViewportView(txtInformacion);
+
+        getContentPane().add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 70, 320, 140));
+
+        Titulo.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
+        Titulo.setText("Informacion Estudiantes");
+        getContentPane().add(Titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, 220, 30));
+
+        btnMostrarInformacion.setText("Mostrar Información");
+        btnMostrarInformacion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMostrarInformacionActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnMostrarInformacion, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 250, 150, 30));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -89,10 +101,21 @@ public class Ventana extends javax.swing.JFrame {
             this.rutaArchivo = nombreCarpeta + "\\" + nombreArchivo;
             System.out.println(rutaArchivo);
         }
-
-
-
+        
+        File archivoAConvertir=new File(rutaArchivo);
+        datos = controlRegistro.cargarLista(archivoAConvertir);
+        controlRegistro.registrarEstudiante(datos);
     }//GEN-LAST:event_btnSeleccionarArchivoActionPerformed
+
+    private void btnMostrarInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInformacionActionPerformed
+        String informacion = ""; 
+        for (Estudiante estudiante : controlRegistro.listarEstudiantes()) {
+            informacion+= "\n"+ estudiante.getNombre() + " " 
+                    + controlRegistro.totalMateriasEstudiante(estudiante)
+                    + " materias";
+        }
+        txtInformacion.setText(informacion);
+    }//GEN-LAST:event_btnMostrarInformacionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -132,6 +155,10 @@ public class Ventana extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Titulo;
+    private javax.swing.JButton btnMostrarInformacion;
     private javax.swing.JButton btnSeleccionarArchivo;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextArea txtInformacion;
     // End of variables declaration//GEN-END:variables
 }
