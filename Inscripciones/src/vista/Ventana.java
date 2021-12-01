@@ -5,17 +5,33 @@
  */
 package vista;
 
+import control.ControlArchivo;
+import control.ControlArchivoException;
+import control.ControlRegistro;
+import java.awt.Component;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Juan David Osorio y Nicolás Estupiñán
  */
 public class Ventana extends javax.swing.JFrame {
 
+    private String rutaArchivo;
+    private ControlRegistro controlRegistro;
+
     /**
      * Creates new form Ventana
      */
     public Ventana() {
         initComponents();
+        controlRegistro = new ControlRegistro();
     }
 
     /**
@@ -27,21 +43,56 @@ public class Ventana extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnSeleccionarArchivo = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnSeleccionarArchivo.setText("Seleccionar archivo");
+        btnSeleccionarArchivo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionarArchivoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(152, 152, 152)
+                .addComponent(btnSeleccionarArchivo)
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(231, Short.MAX_VALUE)
+                .addComponent(btnSeleccionarArchivo)
+                .addGap(37, 37, 37))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSeleccionarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarArchivoActionPerformed
+        JFileChooser chooser = new JFileChooser();
+
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+
+        Component parent = null;
+        int returnVal = chooser.showSaveDialog(parent);
+
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+            String nombreCarpeta = chooser.getSelectedFile().getParent();
+            String nombreArchivo = chooser.getSelectedFile().getName();
+            this.rutaArchivo = nombreCarpeta + "\\" + nombreArchivo;
+            System.out.println(rutaArchivo);
+        }
+
+
+
+    }//GEN-LAST:event_btnSeleccionarArchivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,6 +129,9 @@ public class Ventana extends javax.swing.JFrame {
         });
     }
 
+    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSeleccionarArchivo;
     // End of variables declaration//GEN-END:variables
 }
