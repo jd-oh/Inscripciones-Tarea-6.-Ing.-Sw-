@@ -19,8 +19,54 @@ public class ControlRegistro {
 
     private ArrayList<Estudiante> estudiantes;
 
-    public void registrarEstudiante() {
 
+    public ControlRegistro() {
+        this.estudiantes = new ArrayList<Estudiante>();
+    }
+    
+    
+    /**
+     * Metodo para registrar los datos del archivo como estudiantes junto con 
+     * sus materias
+     * @param inscripciones lista de datos provenientes del archivo previamente 
+     * cargado
+     * @throws EstudianteException  en caso de que los datos proporcionados
+     * no sean los previamente acordados para la inscripción
+     */
+    public void registrarEstudiante(ArrayList<String> inscripciones) throws EstudianteException {
+        for (String datoInscripcion : inscripciones) {
+            String [] inscripcionDividida = datoInscripcion.split(",");
+            if (inscripcionDividida.length != 4){
+                throw new EstudianteException("El registro no cumple con "
+                        + "la estructura necesaria");
+            }
+            Estudiante estudiante =  buscarEstudiante(inscripcionDividida[0]);
+            if (estudiante != null) {
+                boolean materiaExiste  = buscarCodigoMateria(estudiante, inscripcionDividida[2]);
+                if (materiaExiste == false) 
+                    agregarMateria(estudiante, inscripcionDividida[2]);                
+            }
+            else {
+                
+                matricularEstudiante( inscripcionDividida);
+            }
+              
+        }
+    }
+
+    /**
+     * Metodo para crear un nuevo estudiante y agregarlo a la lista de 
+     * estudiantes inscritos
+     * @param estudiante Objeto estudiante vacio que espera datos
+     * @param inscripcionDividida arreglo con los datos de la inscripción a 
+     * realizar 
+     */
+    private void matricularEstudiante( String[] inscripcionDividida) {
+        Estudiante estudiante = new Estudiante();
+        estudiante.setCedula(inscripcionDividida[0]);
+        estudiante.setNombre(inscripcionDividida[1]);
+        agregarMateria(estudiante, inscripcionDividida[2]);
+        estudiantes.add(estudiante);
     }
 
     /**
@@ -30,8 +76,10 @@ public class ControlRegistro {
      * @param cedula la cédula del estudiante
      * @return el estudiante si existe o null si no existe.
      */
-    public Estudiante buscarEstudiante(String cedula) {
-
+    private Estudiante buscarEstudiante(String cedula) {
+       if (estudiantes.size() == 0 ) {
+            return null;
+        }
         for (Estudiante estudiante : estudiantes) {
             if (estudiante.getCedula().equals(cedula)) {
                 return estudiante;
@@ -73,7 +121,7 @@ public class ControlRegistro {
      * @return falso si la materia no este en la lista del estudiante
      * @return true si la materia ya esta en la lista
      */
-    public boolean buscarCodigoMateria(Estudiante estudiante, String codigo) {
+    private boolean buscarCodigoMateria(Estudiante estudiante, String codigo) {
         ArrayList<String> materias = estudiante.mostrarCodigoMaterias();
         for (String materia : materias) {
             if (materia.equals(codigo)) {
@@ -93,7 +141,7 @@ public class ControlRegistro {
      * @param estudiante nos permite saber a cual estudiante debemos agregar
      * @param codigo materia a ser agregada a la lista del estudiante
      */
-    public void agregarMateria(Estudiante estudiante, String codigo) {
+    private void agregarMateria(Estudiante estudiante, String codigo) {
         estudiante.agregarCodMateriasCursadas(codigo);
     }
 
@@ -114,7 +162,7 @@ public class ControlRegistro {
      * @return un entero que es la cantidad de materias del estudiante
      */
     public int totalMateriasEstudiante(Estudiante estudiante) {
-
+       
         return estudiante.mostrarCodigoMaterias().size();
     }
 

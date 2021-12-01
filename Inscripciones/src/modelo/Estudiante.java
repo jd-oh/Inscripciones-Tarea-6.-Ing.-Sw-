@@ -24,7 +24,7 @@ public class Estudiante {
     }
 
     public Estudiante() {
-        
+        codigoMateriasCursadas = new ArrayList<>();
     }
    
     
