@@ -27,7 +27,8 @@ public class ControlArchivo {
      * @throws FileNotFoundException se lanza la excepcion si no se encuentra el
      * archivo
      * @throws IOException Si el archivo no pudo leerse correctamente
-     * @throws ControlArchivoException Si el archivo no tiene formato .txt
+     * @throws ControlArchivoException Si el archivo no tiene formato .txt o si
+     * el archivo está vacío
      */
     public ArrayList<String> convertirArchivo(File archivoAConvertir)
             throws FileNotFoundException, IOException, ControlArchivoException{
@@ -35,6 +36,8 @@ public class ControlArchivo {
         if (!archivoAConvertir.getName().endsWith("txt")) {
             throw new ControlArchivoException("El archivo debe ser de formato .txt");
         }
+        
+        
         
         ArrayList<String> datosString = new ArrayList<>();
 
@@ -50,6 +53,10 @@ public class ControlArchivo {
 
             }
 
+        }
+        
+        if(datosString.size()==0){
+                throw new ControlArchivoException("El archivo está vacío.");
         }
 
 

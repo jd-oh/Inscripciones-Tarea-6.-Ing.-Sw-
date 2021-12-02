@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import modelo.Estudiante;
 
 /**
@@ -19,54 +20,64 @@ public class ControlRegistro {
 
     private ArrayList<Estudiante> estudiantes;
 
-
     public ControlRegistro() {
         this.estudiantes = new ArrayList<Estudiante>();
     }
-    
-    
+
     /**
-     * Metodo para registrar los datos del archivo como estudiantes junto con 
+     * Metodo para registrar los datos del archivo como estudiantes junto con
      * sus materias
-     * @param inscripciones lista de datos provenientes del archivo previamente 
+     *
+     * @param inscripciones lista de datos provenientes del archivo previamente
      * cargado
-     * @exception  EstudianteException  en caso de que los datos proporcionados
-     * no sean los previamente acordados para la inscripción
+     * @exception EstudianteException en caso de que los datos proporcionados no
+     * sean los previamente acordados para la inscripción
      */
     public void registrarEstudiante(ArrayList<String> inscripciones) {
-        try{
-        for (String datoInscripcion : inscripciones) {
-            String [] inscripcionDividida = datoInscripcion.split(",");
-            if (inscripcionDividida.length != 4){
-                throw new EstudianteException("El registro no cumple con "
-                        + "la estructura necesaria");
-            }
-            Estudiante estudiante =  buscarEstudiante(inscripcionDividida[0]);
-            if (estudiante != null) {
-                boolean materiaExiste  = buscarCodigoMateria(estudiante, inscripcionDividida[2]);
-                if (materiaExiste == false) 
-                    agregarMateria(estudiante, inscripcionDividida[2]);                
-            }
-            else {
+        
+        int contador=0;
+            for (String datoInscripcion : inscripciones) {
+                contador++;
+                System.out.println(contador + " "+datoInscripcion);
+                String[] inscripcionDividida = datoInscripcion.split(",");
+
                 
-                matricularEstudiante( inscripcionDividida);
+                if (inscripcionDividida.length != 4) {
+                    
+                    
+                    JOptionPane.showMessageDialog(null,"El registro en la línea "+ 
+                            contador+" no cumple con "
+                            + "la estructura necesaria");
+                    continue;
+
+                    
+                }
+           
+                Estudiante estudiante = buscarEstudiante(inscripcionDividida[0]);
+                if (estudiante != null) {
+                    boolean materiaExiste = buscarCodigoMateria(estudiante, inscripcionDividida[2]);
+                    if (!materiaExiste) {
+                        agregarMateria(estudiante, inscripcionDividida[2]);
+                    }
+                } else {
+
+                    matricularEstudiante(inscripcionDividida);
+                }
+
+
             }
-              
-        }
-        }
-        catch(EstudianteException e){
-            System.out.println(e.getMessage());
-        }
+        
     }
 
     /**
-     * Metodo para crear un nuevo estudiante y agregarlo a la lista de 
+     * Metodo para crear un nuevo estudiante y agregarlo a la lista de
      * estudiantes inscritos
+     *
      * @param estudiante Objeto estudiante vacio que espera datos
-     * @param inscripcionDividida arreglo con los datos de la inscripción a 
-     * realizar 
+     * @param inscripcionDividida arreglo con los datos de la inscripción a
+     * realizar
      */
-    private void matricularEstudiante( String[] inscripcionDividida) {
+    private void matricularEstudiante(String[] inscripcionDividida) {
         Estudiante estudiante = new Estudiante();
         estudiante.setCedula(inscripcionDividida[0]);
         estudiante.setNombre(inscripcionDividida[1]);
@@ -82,7 +93,7 @@ public class ControlRegistro {
      * @return el estudiante si existe o null si no existe.
      */
     private Estudiante buscarEstudiante(String cedula) {
-       if (estudiantes.size() == 0 ) {
+        if (estudiantes.size() == 0) {
             return null;
         }
         for (Estudiante estudiante : estudiantes) {
@@ -108,10 +119,10 @@ public class ControlRegistro {
         try {
             datos = controlArchivo.convertirArchivo(archivoAConvertir);
         } catch (IOException error) {
-            System.out.println("ERROR: El archivo no pudo leerse."
+            JOptionPane.showMessageDialog(null, "ERROR: El archivo no pudo leerse."
                     + "correctamente.");
         } catch (ControlArchivoException error) {
-            System.out.println(error.getMessage());
+            JOptionPane.showMessageDialog(null, error.getMessage());
         }
 
         return datos;
@@ -134,8 +145,7 @@ public class ControlRegistro {
                         + "registrada para este estudiante " + codigo);
                 return true;
             }
-            /*else 
-                estudiante.agregarCodMateriasCursadas(codigo);*/
+            
         }
         return false;
     }
@@ -167,7 +177,7 @@ public class ControlRegistro {
      * @return un entero que es la cantidad de materias del estudiante
      */
     public int totalMateriasEstudiante(Estudiante estudiante) {
-       
+
         return estudiante.mostrarCodigoMaterias().size();
     }
 
