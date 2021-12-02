@@ -1,0 +1,3 @@
+1234567,Lulu Lopez,1040,Calculo
+9876534,Pepito Perez,1040,Calculo
+4567766,Calvin Clein,1050,Fisica I

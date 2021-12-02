@@ -30,7 +30,7 @@ public class ControlArchivo {
      * @throws ControlArchivoException Si el archivo no tiene formato .txt
      */
     public ArrayList<String> convertirArchivo(File archivoAConvertir)
-            throws FileNotFoundException, IOException, ControlArchivoException {
+            throws FileNotFoundException, IOException, ControlArchivoException{
         
         if (!archivoAConvertir.getName().endsWith("txt")) {
             throw new ControlArchivoException("El archivo debe ser de formato .txt");

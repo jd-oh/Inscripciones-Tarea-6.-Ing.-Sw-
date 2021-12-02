@@ -5,16 +5,11 @@
  */
 package vista;
 
-import control.ControlArchivo;
-import control.ControlArchivoException;
+
 import control.ControlRegistro;
 import java.awt.Component;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import modelo.Estudiante;
 
@@ -24,9 +19,7 @@ import modelo.Estudiante;
  */
 public class Ventana extends javax.swing.JFrame {
 
-    private String rutaArchivo;
     private ControlRegistro controlRegistro;
-    private ArrayList<String> datos=new ArrayList<>();
 
 
     /**
@@ -87,35 +80,69 @@ public class Ventana extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnSeleccionarArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionarArchivoActionPerformed
-        JFileChooser chooser = new JFileChooser();
-
-        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-
-        Component parent = null;
-        int returnVal = chooser.showSaveDialog(parent);
-
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
-
-            String nombreCarpeta = chooser.getSelectedFile().getParent();
-            String nombreArchivo = chooser.getSelectedFile().getName();
-            this.rutaArchivo = nombreCarpeta + "\\" + nombreArchivo;
-            System.out.println(rutaArchivo);
-        }
+       
+        String rutaArchivo=guardarRutaArchivoSeleccionado();
         
-        File archivoAConvertir=new File(rutaArchivo);
-        datos = controlRegistro.cargarLista(archivoAConvertir);
-        controlRegistro.registrarEstudiante(datos);
+        cargaDatos(rutaArchivo);
+        
     }//GEN-LAST:event_btnSeleccionarArchivoActionPerformed
 
+    
+    /**
+     * Método que carga el archivo y llama a los métodos correspondientes para
+     * la obtención de la lista con las inscripciones, para posteriormente registrar
+     * los estudiantes.
+     * @param rutaArchivo 
+     */
+    private void cargaDatos(String rutaArchivo) {
+        File archivoAConvertir=new File(rutaArchivo);
+        ArrayList<String> datos = new ArrayList<>();
+        datos = controlRegistro.cargarLista(archivoAConvertir);
+        controlRegistro.registrarEstudiante(datos);
+    }
+
+    /**
+     * Método que muestra una ventana emergente al usuario para que escoja el 
+     * archivo de texto con las inscripciones que se leerá.
+ 
+     * @return la ruta del archivo que se escogió.
+     */
+    public String guardarRutaArchivoSeleccionado() {
+        JFileChooser chooser = new JFileChooser();
+        String rutaArchivo=null;
+        
+        chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        
+        Component parent = null;
+        int returnVal = chooser.showSaveDialog(parent);
+        
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            
+            String nombreCarpeta = chooser.getSelectedFile().getParent();
+            String nombreArchivo = chooser.getSelectedFile().getName();
+            rutaArchivo = nombreCarpeta + "\\" + nombreArchivo;
+        }
+        
+        return rutaArchivo;
+    }
+
     private void btnMostrarInformacionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMostrarInformacionActionPerformed
-        String informacion = ""; 
+        mostrarInformacion();
+    }//GEN-LAST:event_btnMostrarInformacionActionPerformed
+
+    /**
+     * Método que muestra en la interfaz gráfica los nombres de los estudiantes
+     * con su número de materias inscritas.
+     */
+    private void mostrarInformacion() {
+        String informacion = "";
         for (Estudiante estudiante : controlRegistro.listarEstudiantes()) {
-            informacion+= "\n"+ estudiante.getNombre() + " " 
+            informacion+= "\n"+ estudiante.getNombre() + " "
                     + controlRegistro.totalMateriasEstudiante(estudiante)
                     + " materias";
         }
         txtInformacion.setText(informacion);
-    }//GEN-LAST:event_btnMostrarInformacionActionPerformed
+    }
 
     /**
      * @param args the command line arguments
