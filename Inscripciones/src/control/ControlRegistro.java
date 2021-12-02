@@ -38,7 +38,6 @@ public class ControlRegistro {
         int contador=0;
             for (String datoInscripcion : inscripciones) {
                 contador++;
-                System.out.println(contador + " "+datoInscripcion);
                 String[] inscripcionDividida = datoInscripcion.split(",");
 
                 
