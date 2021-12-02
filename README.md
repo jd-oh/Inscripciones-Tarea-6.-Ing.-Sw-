@@ -13,6 +13,8 @@ Cambios:
 
 • Se eliminó ListaException, puesto que no era necesaria ya que estaba siendo controlada por el método cargarLista().
 
+• Se eliminó EstudianteException, puesto que el usuario necesita información que le ayude a saber que pasó y no parar el programa.
+
 • Cómo habiamos planteado en el diagrama de secuencia, la ventana tendrá dos métodos de tipo event que son btnSeleccionarArchivoActionPerformed() y btnMostrarInformacionActionPerformed()
 
 • Se agregó el método matricularEstudiante() a la clase ControlRegistro, para cuando el estudiante no existe, lo crea y lo agrega a la lista.
